@@ -65,60 +65,22 @@ footer {
 
 
 #map {
-  width: 100%;
-  display: block;
-  height: 600px;
-  margin: 0 auto;
-  border: 2px solid #777;
-  position: relative;
-  overflow: hidden;
+  width: 960px;
+  height: 500px;
 }
 
 svg {
-  position: absolute;
-  top: 0;
-  left:0;
-}
-
-.sphere {
-  fill: #fff;
-}
-
-.overlay {
-  fill: none;
-  pointer-events: none;
+  position: relative;
 }
 
 path {
- fill: none;
+  fill: rgba(0,0,0,0.3);
+  stroke: rgba(0,0,0,0.8);
+  stroke-width: 0px;
 }
 
-.RESIDENTIAL {
-  fill: blue;
-}
-
-.COMMERCIAL {
-  fill: orange;
-}
-
-.RELIGIOUS {
-  fill: yellow;
-}
-
-.CITY {
-  fill: green;
-}
-
-.VACANT {
+path:hover {
   fill: red;
+  fill-opacity: .7;
 }
 
-div.tooltip {
-  position: relative;
-  text-align: center;
-  width: 200px;
-  height: 200px;
-  background-color: rgba(0,0,0,0.7);
-  color: #fff;
-  padding: 5%;
-}

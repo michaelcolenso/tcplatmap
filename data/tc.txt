@@ -1,3 +1,3 @@
-ogr2ogr -f GeoJSON test.json "http://arcserver.tclp.org/arcgis/rest/services/City/CityParcelViewer/MapServer/0/query?where=objectid+%3D+objectid&outfields=*&f=json" OGRGeoJSON
+ogr2ogr -f GeoJSON -t_srs EPSG:4326 tcgeo.json "http://arcserver.tclp.org/arcgis/rest/services/City/CityParcelViewer/MapServer/0/query?where=objectid+%3D+objectid&outfields=*&f=json" OGRGeoJSON
 
 http://arcserver.tclp.org/arcgis/rest/services/City/CityParcelViewer/MapServer/0/query

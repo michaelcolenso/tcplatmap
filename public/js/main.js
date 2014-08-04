@@ -1,81 +1,46 @@
 $(document).ready(function() {
-  //var map = L.map('map', { worldCopyJump: true });
-  //var basemap = new L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-    //attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-    //});
-  //basemap.addTo(map);
-  //map.fitWorld();
+  var map = L.map('map', {center: [37.8, -96.9], zoom: 4})
+  .addLayer(new L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+    }));
 
-var width = 800,
-    height = 600;
+  var svg = d3.select(map.getPanes().overlayPane).append("svg"),
+    g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
-var div = d3.select("#info")
-  .append("div")
-  .style("opacity", 0);
+  d3.json("/js/tcgeo.json", function(collection) {
+    console.log(collection);
+    var transform = d3.geo.transform({point: projectPoint}),
+        path = d3.geo.path().projection(transform);
 
-var zoom = d3.behavior.zoom()
-    .scaleExtent([1, 8])
-    .on("zoom", zoomed);
+    var feature = g.selectAll("path")
+        .data(collection.features)
+      .enter().append("path");
 
-var path = d3.geo.path()
-    .projection(null);
+    map.on("viewreset", reset);
+    reset();
 
-var svg = d3.select("#map").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-  .append("g");
+    // Reposition the SVG to cover the features.
+    function reset() {
+      var bounds = path.bounds(collection),
+          topLeft = bounds[0],
+          bottomRight = bounds[1];
 
-var g = svg.append("g");
+      svg .attr("width", bottomRight[0] - topLeft[0])
+          .attr("height", bottomRight[1] - topLeft[1])
+          .style("left", topLeft[0] + "px")
+          .style("top", topLeft[1] + "px");
 
-svg.append("rect")
-  .attr("class", "overlay")
-  .attr("width", width)
-  .attr("height", height);
+      g   .attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
 
-svg
-  .call(zoom)
-  .call(zoom.event);
+      feature.attr("d", path);
+    }
 
-
-d3.json("/js/out.json", function( error,p) {
-
-  if (error) return console.error(error);
-
-  var plats = p.objects.props;
-  console.log(plats);
-
-  g.selectAll("path")
-    .data(topojson.feature(p, plats).features)
-    .enter().append("path")
-    .attr("data-pin", function(d) { return d.properties.PIN })
-    .attr("data-propclass", function(d) { console.log(d.properties.propclass); return d.properties.propclass })
-    .attr("data-owner", function(d) { return d.properties.ownername1 })
-    .style({'stroke': 'rgba(255,255,255,1)', 'stroke-width': '0.5px' })
-    .attr("class", function(d) {return d.properties.classdesc })
-    .attr("d", path)
-    .on("mouseover", function(d) {
-        div.transition().duration(500).style("opacity", 0);
-        div.transition().duration(200).style("opacity", .9);
-        div.html( "<h3><span class='ion-home'></span>" +  d.properties.propstreetcombined + "</h3>" +
-                  "<p><span class='ion-person'></span>" + d.properties.ownername1 + "</p>" +
-                  "<p><span class='ion-ios7-pie'></span>" + d.properties.land_netAcres + "&nbsp;Acres</p>" +
-                  "<p><span class='ion-calendar'></span>" + d.properties.resb_yearbuilt + "</p>" +
-                  "<p>$" + d.properties.adjass_3 + "</p>"
-                  )
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 14) + "px");
-    })
-    .on("mouseout", function(d) {
-        div.transition().duration(500).style("opacity", 0);
-    });
-});
-
-function zoomed() {
-  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
-
-var residential = $('#map').find(".RESIDENTIAL");
-console.log(residential);
+    // Use Leaflet to implement a D3 geometric transformation.
+    function projectPoint(x, y) {
+      var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+      this.stream.point(point.x, point.y);
+    }
+  });
 
 
 });
