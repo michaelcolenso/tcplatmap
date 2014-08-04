@@ -7,7 +7,8 @@ html
     meta(name='description', content='')
     meta(name='csrf-token', content=_csrf)
     meta(name='author', content='')
-    title #{title} | Hackathon Starter
+    title #{title} | jotfeed
+    != css('lib/leaflet')
     != css('styles')
   body
     include partials/navbar

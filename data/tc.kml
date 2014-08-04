@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns:atom="http://www.w3.org/2005/Atom" xmlns="http://www.opengis.net/kml/2.2"> <NetworkLink>
+<open>1</open>
+<name>tc</name>
+<LookAt>
+<longitude>-85.60236855186825</longitude>
+<latitude>44.772335349669206</latitude>
+<range>8443.06460780146</range>
+</LookAt>
+<Link>
+<viewRefreshMode>onRequest</viewRefreshMode>
+<href>http://arcserver.tclp.org/arcgis/services/City/CityParcelViewer/MapServer/KmlServer?Composite=false&amp;LayerIDs=0%2C1</href>
+<viewFormat>BBOX=[bboxWest],[bboxSouth],[bboxEast],[bboxNorth];CAMERA=[lookatLon],[lookatLat],[lookatRange],[lookatTilt],[lookatHeading];VIEW=[horizFov],[vertFov],[horizPixels],[vertPixels],[terrainEnabled]</viewFormat>
+</Link>
+</NetworkLink>
+</kml>

@@ -62,3 +62,63 @@ footer {
 [class^='ion-'] {
   margin-right: 6px;
 }
+
+
+#map {
+  width: 100%;
+  display: block;
+  height: 600px;
+  margin: 0 auto;
+  border: 2px solid #777;
+  position: relative;
+  overflow: hidden;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left:0;
+}
+
+.sphere {
+  fill: #fff;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: none;
+}
+
+path {
+ fill: none;
+}
+
+.RESIDENTIAL {
+  fill: blue;
+}
+
+.COMMERCIAL {
+  fill: orange;
+}
+
+.RELIGIOUS {
+  fill: yellow;
+}
+
+.CITY {
+  fill: green;
+}
+
+.VACANT {
+  fill: red;
+}
+
+div.tooltip {
+  position: relative;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  background-color: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 5%;
+}

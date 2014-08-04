@@ -1,0 +1,15 @@
+{
+  "name": "rsvp",
+  "version": "3.0.8",
+  "main": "./rsvp.js",
+  "homepage": "https://github.com/components/rsvp.js",
+  "_release": "3.0.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.0.8",
+    "commit": "9b41aebc792f996cccd6259ba7a714ffa220bb53"
+  },
+  "_source": "git://github.com/components/rsvp.js.git",
+  "_target": "~3.0.8",
+  "_originalSource": "rsvp"
+}

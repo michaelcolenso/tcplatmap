@@ -1,4 +1,4 @@
-/**
+/*
  * This is a manifest file that will be compiled into application.js, which will
  * include all the files listed below.
  *
@@ -15,4 +15,14 @@
 
 //= require lib/jquery-2.1.1.min
 //= require lib/bootstrap.min
+//= require rsvp/rsvp
+//= require firebase/firebase
+//= require geofire/dist/geofire
+//= require leaflet/dist/leaflet
+//= require geojson.min
+//= require moment/moment
+//= require event-source-polyfill/eventsource
+//= require underscore/underscore
+//= require d3/d3.min
+//= require topojson/topojson
 //= require main

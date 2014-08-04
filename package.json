@@ -1,10 +1,6 @@
 {
-  "name": "hackathon-starter",
-  "version": "2.3.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sahat/hackathon-starter.git"
-  },
+  "name": "tcplats",
+  "version": "0.0.1",
   "scripts": {
     "start": "node app.js",
     "test": "mocha"
@@ -60,6 +56,9 @@
   "devDependencies": {
     "blessed": "0.0.33",
     "chai": "^1.9.1",
+    "event-stream": "^3.1.5",
+    "geojson": "^0.1.5",
+    "hyperquest": "^0.3.0",
     "mocha": "^1.20.1",
     "multiline": "^0.3.4",
     "supertest": "^0.13.0"

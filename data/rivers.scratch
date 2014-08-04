@@ -1,0 +1,30 @@
+
+  //var featureCollection = topojson.feature(p, p.objects.plats);
+  //var bounds = d3.geo.bounds([[-85.659157, 44.715358], [-85.551311, 44.782534]]);
+
+  //var centerX = d3.sum(bounds, function(d) {return d[0];}) / 2,
+      //centerY = d3.sum(bounds, function(d) {return d[1];}) / 2;
+
+
+
+//d3.json("/js/hydro.json", function(error, gt) {
+
+  //svg.append("path")
+      //.datum(topojson.feature(gt, gt.objects.BORDER))
+      //.attr("class", "border")
+      //.style({'fill': 'none', 'stroke': 'rgba(0,0,0,0.5)', 'stroke-width': '1px'})
+      //.attr("d", path);
+
+  //svg.append("path")
+      //.datum(topojson.feature(gt, gt.objects.RIVERS))
+      //.attr("class", "river")
+      //.style({'fill': 'none', 'stroke': 'blue'})
+      //.attr("d", path);
+
+  //svg.append("path")
+      //.datum(topojson.feature(gt, gt.objects.LAKES))
+      //.attr("class", "water")
+      //.style({'fill': 'blue', 'stroke': 'blue'})
+      //.attr("d", path);
+//});
+

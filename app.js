@@ -20,6 +20,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
+var Firebase = require('firebase');
 
 /**
  * Controllers (route handlers).
@@ -55,6 +56,7 @@ mongoose.connection.on('error', function() {
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
+
 
 /**
  * CSRF whitelist.
