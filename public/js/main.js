@@ -1,8 +1,13 @@
 $(document).ready(function() {
-  var map = L.map('map', {center: [37.8, -96.9], zoom: 4})
+  var map = L.map('map', {center: [44.7631, -85.6206], zoom: 12})
   .addLayer(new L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
     }));
+
+  var div = d3.select("#info")
+    .append("div")
+    .attr("class", "platdata")
+    .style("opacity", 0);
 
   var svg = d3.select(map.getPanes().overlayPane).append("svg"),
     g = svg.append("g").attr("class", "leaflet-zoom-hide");
@@ -14,7 +19,47 @@ $(document).ready(function() {
 
     var feature = g.selectAll("path")
         .data(collection.features)
-      .enter().append("path");
+      .enter().append("path")
+        .attr("data-pin", function(d) { return d.properties.PIN })
+        .attr("data-propclass", function(d) { console.log(d.properties.propclass); return d.properties.propclass })
+        .attr("data-owner", function(d) { return d.properties.ownername1 })
+        .style({'stroke': 'rgba(255,255,255,1)', 'stroke-width': '0.5px' })
+        .attr("class", function(d) {return d.properties.classdesc })
+        .attr("d", path)
+        .on("mouseover", function(d) {
+          var data = {
+            street: d.properties.propstreetcombined,
+            owner: d.properties.ownername1,
+            area: d.properties.land_netAcres,
+            zone: d.properties.propclass
+          };
+
+         if (d.properties.propclass == '201') {
+           data.year = d.properties.cib_yearbuilt;
+         } else if (d.properties.propclass == '401') {
+           data.year = d.properties.resb_yearbuilt;
+         } else if (d.properties.propclass == '401') {
+           data.year = "NA";
+         }
+
+         console.log(data);
+
+
+
+            div.transition().duration(500).style("opacity", 0);
+            div.transition().duration(200).style("opacity", .9);
+            div.html( "<h3><span class='ion-home'></span>" +  d.properties.propstreetcombined + "</h3>" +
+                      "<p>" + data.zone + "</p>" +
+                      "<p><span class='ion-person'></span>" + d.properties.ownername1 + "</p>" +
+                      "<p><span class='ion-ios7-pie'></span>" + d.properties.land_netAcres + "&nbsp;Acres</p>" +
+                      "<p><span class='ion-calendar'></span>" + data.year + "</p>" +
+                      "<p><a href='/getSales/" + d.properties.PIN + "'>" + d.properties.PIN + "</a></p>" +
+
+                      "<p>$" + d.properties.adjass_3 + "</p>"
+                      )
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - 14) + "px");
+        });
 
     map.on("viewreset", reset);
     reset();
