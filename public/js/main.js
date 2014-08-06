@@ -25,7 +25,7 @@ $(document).ready(function() {
       var newRow   = tableRef.insertRow(0);
       newRow.innerHTML = '<td>' + moment(sale.date).fromNow() + '</td>' + '<td>' + numeral(sale.price).format('$0,0[.]00') + '</td>' + '<td>' + sale.buyer + '</td><td>' + sale.seller + '</td><td>' + sale.terms + '</td>';
     }
-    p.innerHTML = '<p>This property has&nbsp;' + data.length + '&nbsp;public records in the sales database.</p>';
+    p.innerHTML = '<p>This property has&nbsp;<span style="color: #01FF70">' + data.length + '</span>&nbsp;public records in the sales database.</p>';
   });
 
   var map = L.map('map', {center: [44.7631, -85.6206], zoom: 14})
