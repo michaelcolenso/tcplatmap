@@ -1,19 +1,54 @@
 $(document).ready(function() {
-  var map = L.map('map', {center: [44.7631, -85.6206], zoom: 12})
+
+  var socket = io();
+
+  socket.on('greet', function (data) {
+    console.log(data);
+  });
+
+  socket.on('pin', function(data) {
+
+    var p = document.querySelector('#saleshistory');
+    var tableRef = document.getElementById('saledata').getElementsByTagName('tbody')[0];
+    var tbody = document.getElementById('tbody');
+    tableRef.innerHTML = '';
+
+    for (i=0; i < data.length; i++) {
+
+      var sale = {
+        date: data[i].DateOfSale,
+        seller: data[i].grantor,
+        buyer: data[i].grantee,
+        price: data[i].saleprice,
+        terms: data[i].terms
+      }
+      var newRow   = tableRef.insertRow(0);
+      newRow.innerHTML = '<td>' + moment(sale.date).fromNow() + '</td>' + '<td>' + numeral(sale.price).format('$0,0[.]00') + '</td>' + '<td>' + sale.buyer + '</td><td>' + sale.seller + '</td><td>' + sale.terms + '</td>';
+    }
+    p.innerHTML = '<p>This property has&nbsp;' + data.length + '&nbsp;public records in the sales database.</p>';
+  });
+
+  var map = L.map('map', {center: [44.7631, -85.6206], zoom: 14})
   .addLayer(new L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
     }));
 
-  var div = d3.select("#info")
-    .append("div")
-    .attr("class", "platdata")
+  var div = d3.select(".offer-content")
+    .insert("div", ":first-child")
+    .attr("class", "info")
     .style("opacity", 0);
+
+  var table = d3.select("#saledata")
+    .style("opacity", 0);
+
+  var intro = d3.select("#intro")
+    .style("opacity", 1);
+
 
   var svg = d3.select(map.getPanes().overlayPane).append("svg"),
     g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
   d3.json("/js/tcgeo.json", function(collection) {
-    console.log(collection);
     var transform = d3.geo.transform({point: projectPoint}),
         path = d3.geo.path().projection(transform);
 
@@ -21,12 +56,14 @@ $(document).ready(function() {
         .data(collection.features)
       .enter().append("path")
         .attr("data-pin", function(d) { return d.properties.PIN })
-        .attr("data-propclass", function(d) { console.log(d.properties.propclass); return d.properties.propclass })
+        .attr("data-propclass", function(d) { return d.properties.propclass })
         .attr("data-owner", function(d) { return d.properties.ownername1 })
         .style({'stroke': 'rgba(255,255,255,1)', 'stroke-width': '0.5px' })
         .attr("class", function(d) {return d.properties.classdesc })
         .attr("d", path)
-        .on("mouseover", function(d) {
+        .on("click", function(d) {
+          var pin = d.properties.PIN;
+          socket.emit('getpin', pin);
           var data = {
             street: d.properties.propstreetcombined,
             owner: d.properties.ownername1,
@@ -42,24 +79,19 @@ $(document).ready(function() {
            data.year = "NA";
          }
 
-         console.log(data);
-
-
-
+        //  console.log(data);
             div.transition().duration(500).style("opacity", 0);
             div.transition().duration(200).style("opacity", .9);
-            div.html( "<h3><span class='ion-home'></span>" +  d.properties.propstreetcombined + "</h3>" +
-                      "<p>" + data.zone + "</p>" +
-                      "<p><span class='ion-person'></span>" + d.properties.ownername1 + "</p>" +
-                      "<p><span class='ion-ios7-pie'></span>" + d.properties.land_netAcres + "&nbsp;Acres</p>" +
-                      "<p><span class='ion-calendar'></span>" + data.year + "</p>" +
-                      "<p><a href='/getSales/" + d.properties.PIN + "'>" + d.properties.PIN + "</a></p>" +
-
-                      "<p>$" + d.properties.adjass_3 + "</p>"
-                      )
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY - 14) + "px");
+            intro.transition().duration(100).style("opacity", 0).style("height", 0);
+            table.transition().duration(200).style("opacity", .9);
+            div.html( "<h3 class='lead'>" +  d.properties.propstreetcombined + "</h3>" +
+                      "<p>Owner: " + d.properties.ownername1 + "</p>" +
+                      "<p>Assessed Value: " + numeral(d.properties.adjass_3).format('$0,0[.]00') + "</p>" +
+                      "<p>Year Built: " + data.year + "</p>" +
+                      "<p>Lot Area: " + d.properties.land_netAcres + "&nbsp;Acres</p>"
+                      );
         });
+
 
     map.on("viewreset", reset);
     reset();
@@ -86,6 +118,4 @@ $(document).ready(function() {
       this.stream.point(point.x, point.y);
     }
   });
-
-
 });

@@ -25,4 +25,5 @@
 //= require underscore/underscore
 //= require d3/d3.min
 //= require topojson/topojson
+//= require numeral/numeral
 //= require main

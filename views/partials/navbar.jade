@@ -7,31 +7,27 @@
         span.icon-bar
         span.icon-bar
       a.navbar-brand(href='/')
-        span.ion-cube
-        | TCMI
+        span.ion-earth
+        | Traverse City Parcel Explorer
     .collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
-        if !user
-          li(class=title=='Login'?'active':undefined)
-            a(href='/login') Login
-          li(class=title=='Create Account'?'active':undefined)
-            a(href='/signup') Create Account
-        else
-          li.dropdown(class=title=='Account Management'?'active':undefined)
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              if user.profile.picture
-                img(src='#{user.profile.picture}')
-              else
-                img(src='#{user.gravatar(60)}')
-              | #{user.profile.name || user.email || user.id}&nbsp;
-              i.caret
-            ul.dropdown-menu
-              li
-                a(href='/account')
-                  span.ion-person
-                  | My Account
-              li.divider
-              li
-                a(href='/logout')
-                  span.ion-log-out
-                  |  Logout
+          li
+            a.residential(href='/login')
+              span.ion-record.residential
+              | Residential
+          li
+            a(href='#')
+              span.ion-record.commercial
+              | Commercial
+          li
+            a(href='#')
+              span.ion-record.city
+              | City Owned
+          li
+            a(href='#')
+              span.ion-record.god
+              | Churches
+          li
+            a(href='#')
+              span.ion-record.vacant
+              | Vacant Lot
