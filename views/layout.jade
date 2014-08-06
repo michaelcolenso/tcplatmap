@@ -9,11 +9,13 @@ html
     meta(name='author', content='')
     title #{title} | jotfeed
     != css('lib/leaflet')
+    != css('lib/panels')
     != css('styles')
+    script(src='/socket.io/socket.io.js')
   body
     include partials/navbar
 
-    .container
+    .container-fluid
       include partials/flash
       block content
 

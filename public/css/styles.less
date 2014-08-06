@@ -4,6 +4,7 @@
 @import "lib/bootstrap-social";
 @import "themes/modern";
 
+
 // Scaffolding
 // -------------------------
 
@@ -66,59 +67,144 @@ footer {
 
 #map {
   width: 100%;
+  top: 50px;
   display: block;
-  height: 600px;
+  height: 100%;
   margin: 0 auto;
-  border: 2px solid #777;
-  position: relative;
-  overflow: hidden;
+  position: fixed;
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
 svg {
-  position: absolute;
-  top: 0;
-  left:0;
-}
-
-.sphere {
-  fill: #fff;
-}
-
-.overlay {
-  fill: none;
-  pointer-events: none;
+  position: relative;
 }
 
 path {
- fill: none;
+  fill: rgba(0,0,0,0.3);
+  stroke: rgba(0,0,0,0.8);
+  stroke-width: 0px;
+}
+
+path:hover {
+  fill: red;
+  fill-opacity: .7;
+}
+
+.platdata {
+  color: red;
 }
 
 .RESIDENTIAL {
   fill: blue;
+  fill-opacity: 0.6;
 }
 
 .COMMERCIAL {
   fill: orange;
+  fill-opacity: 0.6;
 }
 
 .RELIGIOUS {
   fill: yellow;
+  fill-opacity: 0.6;
 }
 
 .CITY {
   fill: green;
+  fill-opacity: 0.6;
 }
 
 .VACANT {
   fill: red;
+  fill-opacity: 0.6;
 }
 
-div.tooltip {
-  position: relative;
-  text-align: center;
-  width: 200px;
-  height: 200px;
-  background-color: rgba(0,0,0,0.7);
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+
+.sidebar {
+  color: #ffffff;
+  p {
+    color: #fff;
+  }
+  li {
+    list-style-type: none;
+  }
+}
+
+.offer, .offer-content {
   color: #fff;
-  padding: 5%;
+  p {
+    color: #fff;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0px;
+    bottom: 45px;
+    right: 0;
+    z-index: 1;
+    text-align: left;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: rgba(255,255,255,0.0);
+    pointer-events: none;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20p x padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+  font-size: 0.9em;
+
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+  color: #fff;
+}
+
+#saledata {
+  width: 90%;
+  font-size: 12px;
+}
+
+#intro {
+  height: 100%;
+  width: 100%;
+}
+
+/* Legend */
+
+span.residential {
+  color: blue;
+}
+
+span.commercial {
+  color: orange;
+}
+
+span.city {
+  color: green;
+}
+
+span.god {
+  color: yellow;
+}
+
+span.vacant {
+  color: red;
 }

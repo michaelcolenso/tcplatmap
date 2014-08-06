@@ -20,7 +20,6 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
-var Firebase = require('firebase');
 
 /**
  * Controllers (route handlers).
@@ -43,6 +42,12 @@ var passportConf = require('./config/passport');
  */
 
 var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+var MongoClient = require('mongodb').MongoClient;
+
+
 
 /**
  * Connect to MongoDB.
@@ -219,7 +224,31 @@ app.use(errorHandler());
  * Start Express server.
  */
 
-app.listen(app.get('port'), function() {
+
+io.sockets.on('connection', function(socket) {
+  MongoClient.connect('mongodb://127.0.0.1:27017/tcsales', function(err, db) {
+      if(err) throw err;
+      var collection = db.collection('sales');
+
+      socket.emit('greet', { hello: 'Hey client bro' });
+
+      socket.on('getpin', function(data) {
+        var fullpin = '28-'+ data;
+
+
+        collection.find({ 'pnum': fullpin }).sort({ saledate: 1}).toArray(function(err, results) {
+          io.emit("pin", results);
+        })
+      });
+
+  });
+
+  socket.on('disconnect', function() {
+    console.log('Socket disconnected');
+  });
+});
+
+server.listen(app.get('port'), function() {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 

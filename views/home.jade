@@ -1,9 +1,34 @@
 extends layout
 
 block content
-  div.container
-    div.row
-      div.col-md-9
-        div#map
-      div.col-md-3
-        div#info
+  .row
+    .col-sm-3.col-md-5.sidebar
+      ul.nav.nav-sidebar
+      div#records
+
+      div.row
+        .col-xs-12
+          .offer.offer-default
+            .shape
+              .shape-text
+                | TC
+            .offer-content
+              h3#intro Awesome. You're here. Let's get started.
+                p.lead Click on a parcel to see more information about the property.
+              p#saleshistory.lead
+              table#saledata.table.table-condensed
+                thead
+                  tr
+                    th Date
+                    th Price
+                    th Buyer
+                    th Seller
+                    th Terms
+                tbody#tbody
+                  tr
+                    td.date
+                    td.price
+                    td.buyer
+                    td.seller
+                    td.Terms
+  #map.col-sm-9.col-sm-offset-3.col-md-8.col-md-offset-2.main
