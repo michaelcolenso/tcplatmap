@@ -230,7 +230,7 @@ io.sockets.on('connection', function(socket) {
       if(err) throw err;
       var collection = db.collection('sales');
 
-      socket.emit('greet', { hello: 'Hey client bro' });
+      socket.emit('greet', { hello: 'Hey bro' });
 
       socket.on('getpin', function(data) {
         var fullpin = '28-'+ data;
