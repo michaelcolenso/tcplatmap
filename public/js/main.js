@@ -38,6 +38,8 @@ $(document).ready(function() {
     .attr("class", "info")
     .style("opacity", 0);
 
+  var legend = d3.select("#legend li");
+
   var table = d3.select("#saledata")
     .style("opacity", 0);
 

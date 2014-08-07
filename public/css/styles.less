@@ -67,7 +67,7 @@ footer {
 
 #map {
   width: 100%;
-  top: 50px;
+  top: 60px;
   display: block;
   height: 100%;
   margin: 0 auto;
@@ -124,11 +124,6 @@ path:hover {
  * Sidebar
  */
 
-/* Hide for mobile, show later */
-.sidebar {
-  display: none;
-}
-
 .sidebar {
   color: #ffffff;
   p {
@@ -146,21 +141,19 @@ path:hover {
   }
 }
 
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 0px;
-    bottom: 45px;
-    right: 0;
-    z-index: 1;
-    text-align: left;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: rgba(255,255,255,0.0);
-    pointer-events: none;
-  }
+.sidebar {
+  position: fixed;
+  top: 60px;
+  bottom: 45px;
+  right: 0;
+  z-index: 1;
+  text-align: left;
+  display: block;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  background-color: rgba(255,255,255,0.0);
+  pointer-events: none;
 }
 
 /* Sidebar navigation */
@@ -212,4 +205,39 @@ span.vacant {
 
 span.other {
   color: rgba(0,0,0,0.3);
+}
+
+li {
+  padding-right: 15px;
+}
+
+.navbar-nav li:first-child {
+  padding-left: 30px;
+}
+
+
+.navbar-nav li {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+a .mi-icon {
+  display: inline-block;
+  width: 80px;
+  height: 60px;
+  background: url("/css/tcmi.svg")no-repeat;
+  background-size: 80px 60px;
+  position: absolute;
+  top: -20px;
+}
+
+a .mi-icon:hover {
+  background: url("/css/tcmi-hover.svg") no-repeat;
+}
+
+#map .leaflet-left .leaflet-control {
+	margin-left: 30px;
+}
+#map .leaflet-right .leaflet-control {
+	margin-top: 30px;
 }

@@ -6,33 +6,29 @@
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/')
-        span.ion-earth
-        | Traverse City Parcel Explorer
+      span.navbar-brand
+        | TC | MI
     .collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
-          li
-            a.residential(href='/login')
-              span.ion-record.residential
-              | Residential
-          li
-            a(href='#')
-              span.ion-record.commercial
-              | Commercial
-          li
-            a(href='#')
-              span.ion-record.city
-              | City Owned
-          li
-            a(href='#')
-              span.ion-record.god
-              | Churches
-          li
-            a(href='#')
-              span.ion-record.other
-              | Education/Industrial/Health Services
-
-          li
-            a(href='#')
-              span.ion-record.vacant
-              | Vacant Lot
+      ul#legend.nav.navbar-nav
+        li(class=title=='Residential'?'active':undefined)
+            span.ion-record.residential
+            | Residential
+        li(class=title=='Commercial'?'active':undefined)
+            span.ion-record.commercial
+            | Commercial
+        li(class=title=='City'?'active':undefined)
+            span.ion-record.city
+            | Public
+        li(class=title=='other'?'active':undefined)
+            span.ion-record.other
+            | Education / Industry / Health Care
+        li(class=title=='other'?'active':undefined)
+            span.ion-record.god
+            | Churches
+        li(class=title=='other'?'active':undefined)
+            span.ion-record.vacant
+            | Vacant Lots
+      ul.nav.navbar-nav.nav-right
+        li(class=title=='other'?'active':undefined)
+          a(href='http://www.traversecitymi.gov/', title='The Cherry Capital of the World')
+            span.mi-icon
