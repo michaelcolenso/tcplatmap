@@ -73,7 +73,7 @@ var csrfExclude = ['/url1', '/url2'];
  * Express configuration.
  */
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(compress());
@@ -230,7 +230,7 @@ io.sockets.on('connection', function(socket) {
       if(err) throw err;
       var collection = db.collection('sales');
 
-      socket.emit('greet', { hello: 'Hey client bro' });
+      socket.emit('greet', { hello: 'Hey bro' });
 
       socket.on('getpin', function(data) {
         var fullpin = '28-'+ data;
