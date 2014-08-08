@@ -15,6 +15,7 @@
 
 //= require lib/jquery-2.1.1.min
 //= require lib/bootstrap.min
+//= require socket.io-client/socket.io
 //= require leaflet/dist/leaflet
 //= require geojson.min
 //= require moment/min/moment.min

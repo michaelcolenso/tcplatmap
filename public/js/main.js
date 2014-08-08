@@ -2,19 +2,13 @@ $(document).ready(function() {
 
   var socket = io();
 
-  socket.on('greet', function (data) {
-    console.log(data);
-  });
-
   socket.on('pin', function(data) {
-
     var p = document.querySelector('#saleshistory');
     var tableRef = document.getElementById('saledata').getElementsByTagName('tbody')[0];
     var tbody = document.getElementById('tbody');
     tableRef.innerHTML = '';
 
     for (i=0; i < data.length; i++) {
-
       var sale = {
         date: data[i].DateOfSale,
         seller: data[i].grantor,

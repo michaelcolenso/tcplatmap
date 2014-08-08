@@ -45,7 +45,6 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-var MongoClient = require('mongodb').MongoClient;
 
 
 
@@ -61,7 +60,7 @@ mongoose.connection.on('error', function() {
 var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
-
+var MongoClient = require('mongodb').MongoClient;
 
 /**
  * CSRF whitelist.
@@ -226,26 +225,23 @@ app.use(errorHandler());
 
 
 io.sockets.on('connection', function(socket) {
-  MongoClient.connect('mongodb://127.0.0.1:27017/tcsales', function(err, db) {
-      if(err) throw err;
-      var collection = db.collection('sales');
 
       socket.emit('greet', { hello: 'Hey bro' });
 
       socket.on('getpin', function(data) {
-        var fullpin = '28-'+ data;
-
-
-        collection.find({ 'pnum': fullpin }).sort({ saledate: 1}).toArray(function(err, results) {
-          io.emit("pin", results);
-        })
+        MongoClient.connect('mongodb://127.0.0.1:27017/tcsales', function(err, db) {
+          if(err) throw err;
+          var collection = db.collection('sales');
+          var fullpin = '28-'+ data;
+          collection.find({ 'pnum': fullpin }).sort({ saledate: 1}).toArray(function(err, results) {
+            io.emit("pin", results);
+          })
+        });
       });
 
-  });
-
-  socket.on('disconnect', function() {
-    console.log('Socket disconnected');
-  });
+      socket.on('disconnect', function() {
+        console.log('Socket disconnected');
+      });
 });
 
 server.listen(app.get('port'), function() {
