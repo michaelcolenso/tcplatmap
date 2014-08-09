@@ -46,8 +46,6 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
-
-
 /**
  * Connect to MongoDB.
  */
@@ -229,7 +227,7 @@ io.sockets.on('connection', function(socket) {
       socket.emit('greet', { hello: 'Hey bro' });
 
       socket.on('getpin', function(data) {
-        MongoClient.connect('mongodb://127.0.0.1:27017/tcsales', function(err, db) {
+        MongoClient.connect( process.env.DATABASE_URL, function(err, db) {
           if(err) throw err;
           var collection = db.collection('sales');
           var fullpin = '28-'+ data;
