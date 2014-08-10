@@ -223,10 +223,10 @@ app.use(errorHandler());
  * Start Express server.
  */
 MongoClient.connect( process.env.MONGO_URL, function( err, db ) {
+  console.log(db);
   db.createCollection('sales', {strict:true}, function(err, collection) {
     if (!err) {
       var file = fs.createReadStream('/seeds/sales.json');
-
       file.pipe(parser).pipe(streamToMongo);
       console.log('done bro');
 
