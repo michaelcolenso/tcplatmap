@@ -1,3 +1,3 @@
 {
-	"db": process.env.MONGO_URL
+	"db": "process.env.MONGO_URL"
 }
