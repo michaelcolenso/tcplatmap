@@ -7,4 +7,5 @@ var streamToMongo = require('stream-to-mongo')(options);
 console.log(db);
 request("http://arcserver.tclp.org/arcgis/rest/services/City/CityParcelViewer/MapServer/2/query?where=objectid+%3D+objectid&outfields=*&f=json")
   .pipe(parser)
-  .pipe(streamToMongo).pipe(process.stdout);
+  .pipe(streamToMongo);
+console.log('got it bro');
