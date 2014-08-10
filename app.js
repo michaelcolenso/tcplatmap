@@ -228,7 +228,6 @@ MongoClient.connect( process.env.MONGO_URL, function( err, db ) {
       var file = fs.createReadStream('/seeds/sales.json');
       console.log(file);
       file.pipe(parser).pipe(streamToMongo);
-      console.log('done bro');
 
       } else {
         console.log(err);
