@@ -6,7 +6,7 @@ var fs = require('fs');
 var options = { db: db, collection: 'sales' };
 var streamToMongo = require('stream-to-mongo')(options);
 
-var file = fs.createReadStream(__dirname + '/../sales.json');
+var file = fs.createReadStream('/sales.json');
 console.log(file);
 
 file.pipe(parser).pipe(streamToMongo);
