@@ -2,7 +2,6 @@
   "name": "tcplats",
   "version": "0.0.1",
   "scripts": {
-    "preinstall": "npm install ./node_modules/my-node-mongo-seed/",
     "start": "node app.js",
     "test": "mocha"
   },
