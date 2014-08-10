@@ -15,6 +15,8 @@ var request = require('request');
 var parser = require('JSONStream').parse('features.*.attributes');
 var fs = require('fs');
 var streamToMongo = require('stream-to-mongo')(options);
+var dburl = process.env.MONGO_URL;
+var options = { db: dburl, collection: 'sales' };
 
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')({ session: session });
@@ -223,8 +225,6 @@ app.use(errorHandler());
 MongoClient.connect( process.env.MONGO_URL, function( err, db ) {
   db.createCollection('sales', {strict:true}, function(err, collection) {
     if (!err) {
-      var dburl = process.env.MONGO_URL;
-      var options = { db: dburl, collection: 'sales' };
       var file = fs.createReadStream('/seeds/sales.json');
 
       file.pipe(parser).pipe(streamToMongo);
