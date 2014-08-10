@@ -9,4 +9,4 @@ var streamToMongo = require('stream-to-mongo')(options);
 var file = fs.createReadStream('/sales.json');
 console.log(file);
 
-file.pipe(parser).pipe(process.stdout).pipe(streamToMongo);
+file.pipe(parser).pipe(streamToMongo);
