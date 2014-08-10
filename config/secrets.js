@@ -18,7 +18,7 @@
 
 module.exports = {
 
-  db: process.env.MONGO_URL || 'localhost:27107',
+  db: process.env.MONGO_URL || 'localhost:27107/test',
 
   sessionSecret: process.env.SESSION_SECRET || 'Your Session Secret goes here',
 
