@@ -216,7 +216,11 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-
+MongoClient.connect( process.env.MONGO_URL, function( err, db ) {
+  db.createCollection('sales', {strict:true}, function(err, collection) {
+    if (err) {console.log(err);}
+  });
+});
 
 io.sockets.on('connection', function(socket) {
 
