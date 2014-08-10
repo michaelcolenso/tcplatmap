@@ -1,3 +1,3 @@
 {
-	"db": "mongodb://iswordfight:Tit3eDNXNmZPMmVTOGYzUk9Hbm90WG1xSjhKTXdpakV3RnpxSkI0STVlUT0K@172.17.0.12:27017/iswordfight-production"
+	"db": process.env.MONGO_URL
 }
