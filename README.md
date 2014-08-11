@@ -1,5 +1,7 @@
 ## A Plat Map for Traverse City, Michigan.
 
+[Demo](http://iswordfight.com)
+
 ![screenshot](https://dl.dropboxusercontent.com/s/84q2y4xc516odmb/Screenshot%202014-08-06%2023.59.11.png)
 
 Built with d3.js, leaflet, node.js, socket.io, and a some other fancy stuff.
