@@ -63,17 +63,6 @@ var day = hour * 24;
 var week = day * 7;
 var MongoClient = require('mongodb').MongoClient;
 
-
-function seed () {
-  var streamToMongo = require('stream-to-mongo')(options);
-  var options = { db: secrets.db, collection: 'sales' };
-  console.log('yo seed bro');
-
-  fs.createReadStream('sales.json').pipe(parser).pipe(streamToMongo);
-}
-
-seed();
-
 /**
  * CSRF whitelist.
  */
@@ -230,16 +219,6 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-//MongoClient.connect( secrets.db, function( err, db ) {
-  //db.createCollection('sales', {strict:true}, function(err, collection) {
-    //if (!err) {
-      //console.log(collection);
-      //} else {
-        //console.log(err);
-      //}
-
-  //});
-//});
 
 
 io.sockets.on('connection', function(socket) {
