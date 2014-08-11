@@ -14,9 +14,6 @@ var methodOverride = require('method-override');
 var request = require('request');
 var parser = require('JSONStream').parse('features.*.attributes');
 var fs = require('fs');
-var streamToMongo = require('stream-to-mongo')(options);
-var dburl = process.env.MONGO_URL;
-var options = { db: dburl, collection: 'sales' };
 
 var _ = require('lodash');
 var MongoStore = require('connect-mongo')({ session: session });
@@ -65,6 +62,17 @@ var hour = 3600000;
 var day = hour * 24;
 var week = day * 7;
 var MongoClient = require('mongodb').MongoClient;
+
+
+function seed () {
+  var streamToMongo = require('stream-to-mongo')(options);
+  var options = { db: secrets.db, collection: 'sales' };
+  console.log('yo seed bro');
+
+  fs.createReadStream('sales.json').pipe(parser).pipe(streamToMongo);
+}
+
+seed();
 
 /**
  * CSRF whitelist.
@@ -222,26 +230,24 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-MongoClient.connect( process.env.MONGO_URL, function( err, db ) {
-  db.createCollection('sales', {strict:true}, function(err, collection) {
-    if (!err) {
-      var file = fs.createReadStream('/seeds/sales.json');
-      console.log(file);
-      file.pipe(parser).pipe(streamToMongo);
+//MongoClient.connect( secrets.db, function( err, db ) {
+  //db.createCollection('sales', {strict:true}, function(err, collection) {
+    //if (!err) {
+      //console.log(collection);
+      //} else {
+        //console.log(err);
+      //}
 
-      } else {
-        console.log(err);
-      }
+  //});
+//});
 
-  });
-});
 
 io.sockets.on('connection', function(socket) {
 
       socket.emit('greet', { hello: 'Hey bro' });
 
       socket.on('getpin', function(data) {
-        MongoClient.connect( process.env.MONGO_URL, function(err, db) {
+        MongoClient.connect( secrets.db, function(err, db) {
           if(err) throw err;
           var collection = db.collection('sales');
           var fullpin = '28-'+ data;
