@@ -41,6 +41,10 @@ $(document).ready(function() {
     .style("opacity", 1);
 
 
+  var quantize = d3.scale.quantize()
+    .domain([1, 100000])
+    .range(d3.range(5).map(function(i) { return "q" + i + "-5"; }));
+
   var svg = d3.select(map.getPanes().overlayPane).append("svg"),
     g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
@@ -55,7 +59,7 @@ $(document).ready(function() {
         .attr("data-propclass", function(d) { return d.properties.propclass })
         .attr("data-owner", function(d) { return d.properties.ownername1 })
         .style({'stroke': 'rgba(255,255,255,1)', 'stroke-width': '0.5px' })
-        .attr("class", function(d) {return d.properties.classdesc })
+        .attr("class", function(d) {return d.properties.classdesc + ' ' + quantize( +d.properties.adjass_3)})
         .attr("d", path)
         .on("click", function(d) {
           var pin = d.properties.PIN;
