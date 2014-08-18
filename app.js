@@ -34,10 +34,6 @@ var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
 var mapController = require('./controllers/map');
 
-/**
- * API keys and Passport configuration.
- */
-
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 
