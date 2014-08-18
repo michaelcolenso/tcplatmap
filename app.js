@@ -50,10 +50,10 @@ var io = require('socket.io').listen(server);
  * Connect to MongoDB.
  */
 
-mongoose.connect(secrets.db);
-mongoose.connection.on('error', function() {
-  console.error('MongoDB Connection Error. Make sure MongoDB is running.');
-});
+//mongoose.connect(secrets.db);
+//mongoose.connection.on('error', function() {
+  //console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+//});
 
 var hour = 3600000;
 var day = hour * 24;
