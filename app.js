@@ -50,7 +50,7 @@ var io = require('socket.io').listen(server);
  * Connect to MongoDB.
  */
 
-mongoose.connect(secrets.db);
+mongoose.connect(process.env.MONGO_URL);
 mongoose.connection.on('error', function() {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
 });
