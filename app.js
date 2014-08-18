@@ -25,7 +25,7 @@ var expressValidator = require('express-validator');
 var connectAssets = require('connect-assets');
 
 /**
- * Controllers (route handlers).
+ * Controllers
  */
 
 var homeController = require('./controllers/home');
