@@ -214,11 +214,6 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
 
 app.use(errorHandler());
 
-/**
- * Start Express server.
- */
-
-
 io.sockets.on('connection', function(socket) {
 
       socket.emit('greet', { hello: 'Hey bro' });
