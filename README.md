@@ -1,6 +1,6 @@
 ## A Plat Map for Traverse City, Michigan.
 
-[Demo](http://tcplatmap.herokuapp,com)
+[Demo](http://tcplatmap.herokuapp.com/)
 
 ![screenshot](https://dl.dropboxusercontent.com/s/84q2y4xc516odmb/Screenshot%202014-08-06%2023.59.11.png)
 
