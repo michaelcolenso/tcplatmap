@@ -2,7 +2,7 @@
 
 [Demo](http://tcplatmap.herokuapp.com/)
 
-![screenshot](https://dl.dropboxusercontent.com/s/6zfskzzgvmus6xj/d3-colenso-dot-org.png)
+![screenshot](https://dl.dropboxusercontent.com/s/6whnm8notfqxi40/Screenshot%202015-02-20%2018.28.13.png)
 
 Built with d3.js, leaflet, node.js, socket.io, and a some other fancy stuff.
 
