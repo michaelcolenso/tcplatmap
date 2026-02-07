@@ -1,15 +1,40 @@
-## A Plat Map for Traverse City, Michigan.
+## Traverse City Plat Map
 
-[See the Interactive Map](http://tcplatmap.herokuapp.com/)
+Modernized map-only rebuild of the original tcplatmap app.
 
-![screenshot](https://dl.dropboxusercontent.com/s/6whnm8notfqxi40/Screenshot%202015-02-20%2018.28.13.png)
+### Run locally
+1. Install deps:
 
-Built with d3.js, leaflet, node.js, socket.io, and a some other fancy stuff.
+```sh
+npm install
+```
 
-Data sourced from [here](http://arcserver.tclp.org/arcgis/rest/services/City/CityParcelViewer/MapServer). 
+2. Generate `data/sales.json` (offline, using the bundled legacy ArcGIS export):
 
-[Here's the same map on the city's website](http://www.arcgis.com/apps/Solutions/s2.html?appid=14032e6f603e46e6b398ec316646f8b2).
+```sh
+npm run data:convert:legacy-sales
+```
 
+3. Start the server:
 
+```sh
+npm run dev
+```
 
-All credit is due to [Mike Bostock](http://bl.ocks.org/mbostock), mostly.
+Open `http://localhost:8080`.
+
+### Refresh sales data from ArcGIS REST (on-demand)
+1. Copy env template:
+
+```sh
+cp .env.example .env
+```
+
+2. Set `ARCGIS_SALES_URL` in `.env` to the ArcGIS layer `/query` endpoint, then run:
+
+```sh
+npm run data:fetch:sales
+```
+
+### Legacy code
+The original 2014-era app (auth + API demos + Mongo) is preserved under `legacy/` and is not used by the current server.

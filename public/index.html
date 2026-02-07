@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Traverse City Plat Map</title>
+
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">TC | MI</div>
+      <nav class="legend" aria-label="Legend">
+        <span class="legend-item"><span class="dot residential"></span>Residential</span>
+        <span class="legend-item"><span class="dot commercial"></span>Commercial</span>
+        <span class="legend-item"><span class="dot city"></span>Public</span>
+        <span class="legend-item"><span class="dot other"></span>Other</span>
+        <span class="legend-item"><span class="dot religious"></span>Churches</span>
+        <span class="legend-item"><span class="dot vacant"></span>Vacant</span>
+      </nav>
+    </header>
+
+    <div id="map" aria-label="Map"></div>
+
+    <div class="overlay-stack" aria-label="Info Panel">
+      <section class="card" id="introCard">
+        <h2 class="intro" id="intro">Awesome. You're here. Let's get started.</h2>
+        <p class="lead">Click on a parcel to see more information about the property.</p>
+      </section>
+
+      <section class="card" id="propertyCard" hidden>
+        <div id="property"></div>
+        <p id="saleshistory" class="lead"></p>
+        <table id="saledata" aria-label="Sales History">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Buyer</th>
+              <th>Seller</th>
+              <th>Terms</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/leaflet/dist/leaflet.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

@@ -19,3 +19,6 @@ node_modules
 *.iml
 .DS_Store
 Thumbs.db
+
+# Generated runtime data
+data/sales.json

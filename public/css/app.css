@@ -1,0 +1,444 @@
+:root {
+  --topbar-h: 56px;
+  --bg: #0b0d10;
+  --card: rgba(8, 12, 16, 0.72);
+  --text: #f3f6fb;
+  --muted: rgba(243, 246, 251, 0.72);
+  --border: rgba(243, 246, 251, 0.14);
+}
+
+/* Leaflet base styles (trimmed out of the legacy LESS bundle). */
+.leaflet-map-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-pane,
+.leaflet-tile-container,
+.leaflet-overlay-pane,
+.leaflet-shadow-pane,
+.leaflet-marker-pane,
+.leaflet-popup-pane,
+.leaflet-overlay-pane svg,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.leaflet-container {
+  overflow: hidden;
+  -ms-touch-action: none;
+}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  display: block;
+}
+.leaflet-container img {
+  max-width: none !important;
+}
+.leaflet-container img.leaflet-image-layer {
+  max-width: 15000px !important;
+}
+.leaflet-tile {
+  filter: inherit;
+  visibility: hidden;
+}
+.leaflet-tile-loaded {
+  visibility: inherit;
+}
+.leaflet-zoom-box {
+  width: 0;
+  height: 0;
+}
+.leaflet-overlay-pane svg {
+  -moz-user-select: none;
+}
+
+.leaflet-tile-pane {
+  z-index: 2;
+}
+.leaflet-objects-pane {
+  z-index: 3;
+}
+.leaflet-overlay-pane {
+  z-index: 4;
+}
+.leaflet-shadow-pane {
+  z-index: 5;
+}
+.leaflet-marker-pane {
+  z-index: 6;
+}
+.leaflet-popup-pane {
+  z-index: 7;
+}
+
+.leaflet-control {
+  position: relative;
+  z-index: 7;
+  pointer-events: auto;
+}
+.leaflet-top,
+.leaflet-bottom {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+.leaflet-top {
+  top: calc(var(--topbar-h) + 10px);
+}
+.leaflet-right {
+  right: 0;
+}
+.leaflet-bottom {
+  bottom: 0;
+}
+.leaflet-left {
+  left: 0;
+}
+.leaflet-control {
+  float: left;
+  clear: both;
+}
+.leaflet-right .leaflet-control {
+  float: right;
+}
+.leaflet-top .leaflet-control {
+  margin-top: 10px;
+}
+.leaflet-bottom .leaflet-control {
+  margin-bottom: 10px;
+}
+.leaflet-left .leaflet-control {
+  margin-left: 10px;
+}
+.leaflet-right .leaflet-control {
+  margin-right: 10px;
+}
+
+.leaflet-fade-anim .leaflet-tile,
+.leaflet-fade-anim .leaflet-popup {
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+.leaflet-fade-anim .leaflet-tile-loaded,
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+  opacity: 1;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile,
+.leaflet-touching .leaflet-zoom-animated {
+  transition: none;
+}
+.leaflet-zoom-anim .leaflet-zoom-hide {
+  visibility: hidden;
+}
+
+.leaflet-clickable {
+  cursor: pointer;
+}
+.leaflet-container {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+.leaflet-popup-pane,
+.leaflet-control {
+  cursor: auto;
+}
+.leaflet-dragging .leaflet-container,
+.leaflet-dragging .leaflet-clickable {
+  cursor: move;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+}
+
+.leaflet-container {
+  background: #ddd;
+  outline: 0;
+  font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+.leaflet-container a {
+  color: #0078a8;
+}
+.leaflet-container a.leaflet-active {
+  outline: 2px solid orange;
+}
+.leaflet-zoom-box {
+  border: 2px dotted #38f;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.leaflet-bar {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
+}
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+.leaflet-bar a:hover {
+  background-color: #f4f4f4;
+}
+.leaflet-bar a:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.leaflet-bar a:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom: none;
+}
+.leaflet-bar a.leaflet-disabled {
+  cursor: default;
+  background-color: #f4f4f4;
+  color: #bbb;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  font: bold 18px "Lucida Console", Monaco, monospace;
+  text-indent: 1px;
+}
+.leaflet-control-zoom-out {
+  font-size: 20px;
+}
+
+.leaflet-control-layers {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  border-radius: 5px;
+}
+.leaflet-control-layers-toggle {
+  background-image: url(images/layers.png);
+  width: 36px;
+  height: 36px;
+}
+.leaflet-retina .leaflet-control-layers-toggle {
+  background-image: url(images/layers-2x.png);
+  background-size: 26px 26px;
+}
+.leaflet-container .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+.leaflet-control-attribution {
+  padding: 0 5px;
+  color: #333;
+  font-size: 11px;
+}
+.leaflet-control-attribution a {
+  text-decoration: none;
+}
+.leaflet-control-attribution a:hover {
+  text-decoration: underline;
+}
+
+.leaflet-popup {
+  position: absolute;
+  text-align: center;
+}
+
+.leaflet-div-icon {
+  background: #fff;
+  border: 1px solid #666;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  background: rgba(10, 14, 18, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  overflow: hidden;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  outline: 1px solid rgba(255, 255, 255, 0.18);
+  outline-offset: 1px;
+}
+
+.dot.residential {
+  background: #377eb8;
+}
+.dot.commercial {
+  background: #e41a1c;
+}
+.dot.religious {
+  background: #e9d558;
+}
+.dot.city {
+  background: #4daf4a;
+}
+.dot.vacant {
+  background: #434d53;
+}
+.dot.other {
+  background: #9aa3ad;
+}
+
+.card {
+  pointer-events: auto;
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+}
+
+.intro {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}
+
+.lead {
+  margin: 10px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+#property h3 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+}
+
+#property p {
+  margin: 6px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.overlay-stack {
+  position: fixed;
+  top: calc(var(--topbar-h) + 14px);
+  left: 14px;
+  z-index: 900;
+  width: min(420px, calc(100vw - 28px));
+  max-height: calc(100vh - var(--topbar-h) - 28px);
+  overflow: auto;
+  pointer-events: none;
+}
+
+.overlay-stack .card {
+  pointer-events: auto;
+}
+
+#saledata {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+#saledata thead th {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  color: rgba(243, 246, 251, 0.86);
+  font-weight: 600;
+}
+
+#saledata tbody td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(243, 246, 251, 0.08);
+  vertical-align: top;
+  color: rgba(243, 246, 251, 0.82);
+}
+
+@media (max-width: 640px) {
+  .overlay-stack {
+    left: 10px;
+    top: calc(var(--topbar-h) + 10px);
+    width: calc(100vw - 20px);
+  }
+}
