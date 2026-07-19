@@ -57,3 +57,8 @@ CREATE TABLE IF NOT EXISTS sync_runs (
   status TEXT NOT NULL CHECK (status IN ('running', 'ok', 'error')),
   error TEXT
 );
+
+CREATE TABLE IF NOT EXISTS auction_alert_signups (
+  email TEXT PRIMARY KEY,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
