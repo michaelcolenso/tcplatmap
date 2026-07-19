@@ -1,0 +1,49 @@
+name: Data sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 7 * * *"
+    - cron: "43 8 * * 0"
+
+jobs:
+  sync-sales-auctions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Sync sales
+        run: npm run sync:sales
+        env:
+          ARCGIS_SALES_URL: ${{ secrets.ARCGIS_SALES_URL }}
+      - name: Sync auctions
+        run: npm run sync:auctions
+      - name: Upload sync artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-output
+          path: data/*-sync*.json
+
+  sync-parcels-weekly:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '43 8 * * 0'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Sync parcels
+        run: npm run sync:parcels
+        env:
+          ARCGIS_PARCELS_URL: ${{ secrets.ARCGIS_PARCELS_URL }}
+      - name: Upload parcel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: parcel-sync-output
+          path: data/parcels-sync.geojson
