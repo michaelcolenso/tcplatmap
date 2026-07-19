@@ -10,7 +10,13 @@
     "dev": "nodemon app.js",
     "data:fetch:sales": "node scripts/fetch-sales.js",
     "data:convert:legacy-sales": "node scripts/convert-legacy-sales.js",
-    "test": "node --test"
+    "test": "node --test test/*.test.js",
+    "sync:sales": "node scripts/sync-sales.js",
+    "sync:parcels": "node scripts/sync-parcels.js",
+    "sync:auctions": "node scripts/sync-auctions.js",
+    "worker:dev": "wrangler dev",
+    "worker:deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply tcplatmap --remote"
   },
   "repository": {
     "type": "git",
@@ -20,10 +26,12 @@
     "compression": "^1.8.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "hono": "^4.12.31",
     "morgan": "^1.10.0",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "wrangler": "^4.25.0"
   }
 }

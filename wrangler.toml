@@ -1,0 +1,31 @@
+name = "tcplatmap"
+main = "site/src/worker.mjs"
+compatibility_date = "2026-07-19"
+compatibility_flags = ["nodejs_compat"]
+
+routes = [
+  { pattern = "buildingTC.com", custom_domain = true },
+  { pattern = "www.buildingTC.com", custom_domain = true }
+]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tcplatmap"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "00000000000000000000000000000000"
+
+[[r2_buckets]]
+binding = "GEOMETRY"
+bucket_name = "tcplatmap-geometry"
+
+[vars]
+SITE_URL = "https://buildingTC.com"
+OWNER_NAMES_ENABLED = "false"
