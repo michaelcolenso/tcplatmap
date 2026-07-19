@@ -1,11 +1,9 @@
 const fs = require("fs");
-const http = require("http");
 const path = require("path");
 
 const compression = require("compression");
 const express = require("express");
 const morgan = require("morgan");
-const { Server } = require("socket.io");
 
 require("dotenv").config();
 
@@ -92,17 +90,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-const server = http.createServer(app);
-const io = new Server(server);
-
-io.on("connection", (socket) => {
-  socket.on("getpin", (pin) => {
-    const pnum = normalizePin(pin);
-    const records = pnum ? salesIndex.get(pnum) ?? [] : [];
-    socket.emit("pin", records);
-  });
-});
-
-server.listen(PORT, HOST, () => {
+app.listen(PORT, HOST, () => {
   console.log(`tcplatmap listening on http://${HOST}:${PORT}`);
 });

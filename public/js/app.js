@@ -1,6 +1,4 @@
 (() => {
-  const socket = io();
-
   const elIntroCard = document.getElementById("introCard");
   const elPropertyCard = document.getElementById("propertyCard");
   const elProperty = document.getElementById("property");
@@ -12,6 +10,13 @@
     currency: "USD",
     maximumFractionDigits: 0,
   });
+
+  function normalizePin(pin) {
+    const p = String(pin ?? "").trim();
+    if (!p) return null;
+    if (p.startsWith("28-")) return p;
+    return `28-${p}`;
+  }
 
   function parseLegacyDate(s) {
     const t = String(s ?? "").trim();
@@ -47,10 +52,10 @@
   }
 
   function setPropertyInfo(props) {
-    const street = props?.propstreetcombined ?? "Unknown address";
-    const owner = props?.ownername1 ?? "Unknown";
-    const assessed = Number(props?.adjass_3 ?? 0);
-    const lotAcres = props?.land_netAcres ?? "NA";
+    const street = props?.propstreetcombined ?? props?.address ?? "Unknown address";
+    const owner = props?.ownername1 ?? "Suppressed";
+    const assessed = Number(props?.adjass_3 ?? props?.assessed_value ?? 0);
+    const lotAcres = props?.land_netAcres ?? props?.acreage ?? "NA";
     const propclass = String(props?.propclass ?? "");
 
     let yearBuilt = "NA";
@@ -76,15 +81,15 @@
     elTbody.innerHTML = "";
 
     for (const r of list) {
-      const date = parseLegacyDate(r?.DateOfSale);
-      const price = Number(r?.saleprice ?? 0);
-      const buyer = String(r?.grantee ?? "").trim();
-      const seller = String(r?.grantor ?? "").trim();
-      const terms = String(r?.terms ?? "").trim();
+      const date = parseLegacyDate(r?.DateOfSale ?? r?.sale_date);
+      const price = Number(r?.saleprice ?? r?.price ?? 0);
+      const buyer = String(r?.grantee ?? r?.buyer ?? "").trim();
+      const seller = String(r?.grantor ?? r?.seller ?? "").trim();
+      const terms = String(r?.terms ?? r?.instrument ?? "").trim();
 
       const tr = document.createElement("tr");
       tr.innerHTML = [
-        `<td>${escapeHtml(fromNow(date))}</td>`,
+        `<td>${escapeHtml(fromNow(date) || String(r?.sale_date ?? ""))}</td>`,
         `<td>${escapeHtml(fmtMoney.format(Number.isFinite(price) ? price : 0))}</td>`,
         `<td>${escapeHtml(buyer)}</td>`,
         `<td>${escapeHtml(seller)}</td>`,
@@ -96,9 +101,25 @@
     elSalesHistory.textContent = `This property has ${list.length} public records in the sales database.`;
   }
 
-  socket.on("pin", (data) => {
-    renderSales(data);
-  });
+  async function loadSales(pin) {
+    const pnum = normalizePin(pin);
+    if (!pnum) {
+      renderSales([]);
+      return;
+    }
+    try {
+      const response = await fetch(`/api/sales/${encodeURIComponent(pnum)}`, {
+        headers: { accept: "application/json" },
+      });
+      if (!response.ok) throw new Error(`Sales API returned ${response.status}`);
+      const data = await response.json();
+      renderSales(data.records);
+    } catch (err) {
+      console.error(err);
+      elSalesHistory.textContent = "Sales history failed to load.";
+      renderSales([]);
+    }
+  }
 
   function escapeHtml(s) {
     return String(s)
@@ -170,8 +191,7 @@
           layer.on("click", () => {
             const props = feature?.properties ?? {};
             setPropertyInfo(props);
-            const pin = props?.PIN;
-            socket.emit("getpin", pin);
+            loadSales(props?.PIN ?? props?.parcel_id);
           });
           layer.on("mouseover", () => {
             layer.setStyle({ color: "red", weight: 1, fillOpacity: 0 });
@@ -182,15 +202,12 @@
         },
       }).addTo(map);
 
-      // Eliminate "empty space" by fitting the view to the parcel geometry and
-      // constraining panning to (roughly) the city bounds.
       if (parcelsLayer && typeof parcelsLayer.getBounds === "function") {
         const bounds = parcelsLayer.getBounds();
         if (bounds && typeof map.fitBounds === "function") {
           map.fitBounds(bounds, { padding: [24, 24], maxZoom: 16 });
         }
         if (bounds && typeof map.setMaxBounds === "function") {
-          // pad() is available in Leaflet 1.x; guard for older builds.
           const padded = typeof bounds.pad === "function" ? bounds.pad(0.15) : bounds;
           map.setMaxBounds(padded);
           map.on("drag", () => {
