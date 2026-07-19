@@ -1,7 +1,7 @@
 const DEFAULT_USER_AGENT = "tcplatmap-sync/1.0 (+https://buildingTC.com/about-data)";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function buildArcgisQueryUrl(baseUrl, { offset = 0, pageSize = 2000, where = "1=1", outFields = "*", returnGeometry = false } = {}) {
+function buildArcgisQueryUrl(baseUrl, { offset = 0, pageSize = 2000, where = "1=1", outFields = "*", returnGeometry = false, outSR } = {}) {
   const url = new URL(baseUrl);
   url.searchParams.set("f", "json");
   url.searchParams.set("where", where);
@@ -9,6 +9,7 @@ function buildArcgisQueryUrl(baseUrl, { offset = 0, pageSize = 2000, where = "1=
   url.searchParams.set("returnGeometry", String(returnGeometry));
   url.searchParams.set("resultOffset", String(offset));
   url.searchParams.set("resultRecordCount", String(pageSize));
+  if (outSR) url.searchParams.set("outSR", String(outSR));
   return url;
 }
 

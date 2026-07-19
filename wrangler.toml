@@ -1,5 +1,5 @@
 name = "tcplatmap"
-main = "site/src/worker.mjs"
+main = "site/src/worker.js"
 compatibility_date = "2026-07-19"
 compatibility_flags = ["nodejs_compat"]
 
