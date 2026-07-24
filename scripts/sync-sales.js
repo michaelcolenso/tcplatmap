@@ -3,7 +3,9 @@ const path = require("path");
 const { arcgisPages } = require("./lib/arcgis");
 require("dotenv").config();
 
-const sourceUrl = process.env.ARCGIS_SALES_URL;
+// City of Traverse City sales table (verified 2026-07-24; see DATA-SOURCES.md).
+const DEFAULT_SALES_URL = "https://tcgis.traversecitymi.gov/arcgis/rest/services/Property/CityParcelViewer/MapServer/2/query";
+const sourceUrl = process.env.ARCGIS_SALES_URL || DEFAULT_SALES_URL;
 const checkpointPath = path.resolve(process.env.SALES_CHECKPOINT_PATH || "data/checkpoints/sales.json");
 const outputPath = path.resolve(process.env.SALES_SYNC_OUT || "data/sales-sync.json");
 const pageSize = Number(process.env.ARCGIS_PAGE_SIZE) || 2000;
