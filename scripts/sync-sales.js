@@ -30,7 +30,10 @@ function normalize(attributes) {
 }
 
 async function main() {
-  if (!sourceUrl) throw new Error("Missing ARCGIS_SALES_URL");
+  if (!sourceUrl) {
+    console.warn("[sales] ARCGIS_SALES_URL is not set; skipping sales sync. See DATA-SOURCES.md and .env.example to configure it.");
+    return;
+  }
   const checkpoint = readCheckpoint();
   const rows = [];
   for await (const page of arcgisPages(sourceUrl, { offset: checkpoint.offset, pageSize, where, returnGeometry: false })) {
