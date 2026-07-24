@@ -11,7 +11,7 @@ This inventory is the Phase 1 source ledger for buildingTC.com. Every sync job m
   - ArcGIS parcel viewer: https://experience.arcgis.com/experience/362fc509ce3f4227b79bb6ed242e2de5
   - Legacy parcel search: https://maps.grandtraverse.org/
 - **Terms / access summary:** County GIS pages state the department maintains parcel ownership, road centerline, official address, internet mapping applications, and related spatial databases for public/government/private users. No explicit open-data republication license was found in-repo; initial automated ingest is blocked until Michael confirms the county's current data-use terms or obtains written approval.
-- **Layer status:** Candidate authoritative source is the ArcGIS Tax Parcel Viewer linked by the county gallery. The REST service URL, layer id, fields, and exact feature count still need to be resolved from ArcGIS item metadata before enabling full parcel sync.
+- **Layer status:** Resolved (2026-07-24) from the county Experience Builder app's data sources: `https://gis.gtcountymi.gov/arcgis/rest/services/Public_Services/Tax_Parcel_Public/MapServer/0` (layer `TaxParcel`; also exposed as `FeatureServer/0`). Public, `maxRecordCount` 1000, supports pagination. Fields include `PARCELID`, `pnum`, `SITEADDRESS`, `OWNERNME1/2`, `ASSACRES`, `CNTASSDVAL`, `CNTTXBLVAL`, class/use codes, and geometry. Terms review still gates enabling `ARCGIS_PARCELS_URL` for automated sync.
 - **Expected count:** Third-party parcel products advertise roughly 53k Grand Traverse County parcels; treat this as an order-of-magnitude check only, not an authoritative count.
 - **Target field mapping:**
   - `parcel_id`: parcel number / PIN.
@@ -24,10 +24,13 @@ This inventory is the Phase 1 source ledger for buildingTC.com. Every sync job m
 
 ## Sales / transfer data
 
-- **Current repo source:** `scripts/fetch-sales.js` reads `ARCGIS_SALES_URL` from the environment and queries ArcGIS REST with `where`, `outFields=*`, `returnGeometry=false`, `resultOffset`, and `resultRecordCount`; no hard-coded endpoint is present in the repository.
-- **Current local data:** `data/sales.json` and legacy `sales.json` contain sales records with `ObjectID`, `pnum`, `DateOfSale`, `saleprice`, `grantee`, `grantor`, `liberpage`, `terms`, and `saledate`.
-- **Terms / access summary:** Treat the sales layer as unverified until `ARCGIS_SALES_URL` is confirmed county-official and its terms are reviewed. Do not publish buyer/seller names beyond the public facts already approved for the map until Michael confirms the PII posture.
-- **Update cadence:** Daily sync target. Max sale date probing is implemented as a dry-run-friendly sync capability, but the source endpoint must be configured before it can be measured.
+- **Authority:** City of Traverse City (municipal GIS, `tcgis.traversecitymi.gov`).
+- **Verified endpoint (2026-07-24):** `https://tcgis.traversecitymi.gov/arcgis/rest/services/Property/CityParcelViewer/MapServer/2/query` — the `Sales` table (id 2) of the `Property/CityParcelViewer` MapServer. This is the current home of the same service the legacy app queried at the now-defunct `arcserver.tclp.org/arcgis/rest/services/City/CityParcelViewer/MapServer/2` (dead host, DNS no longer resolves). It is the default in `scripts/sync-sales.js`; `ARCGIS_SALES_URL` overrides it.
+- **Service details:** public, no auth; `maxRecordCount` 2000; supports pagination (`resultOffset`/`resultRecordCount`). 27,607 records at verification, with sale dates through 2026-07-22 (actively maintained).
+- **Fields:** `ObjectID`, `pnum`, `DateOfSale` (string), `saleprice`, `grantee`, `grantor`, `liberpage`, `terms`, `saledate` (esri date) — identical schema to the bundled legacy `data/sales.json` export.
+- **Scope note:** city parcels only (`28-51-*` parcel numbers), not county-wide. County (`gis.gtcountymi.gov`) publishes parcels/assessments but no sales/transfer layer as of verification.
+- **Terms / access summary:** Endpoint is confirmed municipal-official. Grantee/grantor names are present in the source; do not publish buyer/seller names beyond the public facts already approved for the map until Michael confirms the PII posture.
+- **Update cadence:** Daily sync via `.github/workflows/sync.yml` (`npm run sync:sales`).
 
 ## Sheriff mortgage-foreclosure sales
 

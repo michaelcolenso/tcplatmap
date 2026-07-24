@@ -69,7 +69,10 @@ function normalize(feature) {
 }
 
 async function main() {
-  if (!sourceUrl) throw new Error("Missing ARCGIS_PARCELS_URL; verify DATA-SOURCES.md terms before enabling.");
+  if (!sourceUrl) {
+    console.warn("[parcels] ARCGIS_PARCELS_URL is not set; skipping parcel sync. Verify DATA-SOURCES.md terms before enabling.");
+    return;
+  }
   const features = [];
   for await (const page of arcgisPages(sourceUrl, { pageSize, returnGeometry: true, outFields: "*", outSR: 4326 })) {
     console.log(`[parcels] ${page.url} -> ${page.features.length}`);

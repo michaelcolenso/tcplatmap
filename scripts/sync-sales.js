@@ -3,7 +3,9 @@ const path = require("path");
 const { arcgisPages } = require("./lib/arcgis");
 require("dotenv").config();
 
-const sourceUrl = process.env.ARCGIS_SALES_URL;
+// City of Traverse City sales table (verified 2026-07-24; see DATA-SOURCES.md).
+const DEFAULT_SALES_URL = "https://tcgis.traversecitymi.gov/arcgis/rest/services/Property/CityParcelViewer/MapServer/2/query";
+const sourceUrl = process.env.ARCGIS_SALES_URL || DEFAULT_SALES_URL;
 const checkpointPath = path.resolve(process.env.SALES_CHECKPOINT_PATH || "data/checkpoints/sales.json");
 const outputPath = path.resolve(process.env.SALES_SYNC_OUT || "data/sales-sync.json");
 const pageSize = Number(process.env.ARCGIS_PAGE_SIZE) || 2000;
@@ -30,7 +32,10 @@ function normalize(attributes) {
 }
 
 async function main() {
-  if (!sourceUrl) throw new Error("Missing ARCGIS_SALES_URL");
+  if (!sourceUrl) {
+    console.warn("[sales] ARCGIS_SALES_URL is not set; skipping sales sync. See DATA-SOURCES.md and .env.example to configure it.");
+    return;
+  }
   const checkpoint = readCheckpoint();
   const rows = [];
   for await (const page of arcgisPages(sourceUrl, { offset: checkpoint.offset, pageSize, where, returnGeometry: false })) {
