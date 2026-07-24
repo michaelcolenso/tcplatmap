@@ -11,6 +11,14 @@ test("normalizeSaleDate handles legacy YYYYMMDDHHMMSS strings", () => {
   assert.equal(normalizeSaleDate("20260101"), "2026-01-01");
 });
 
+test("normalizeSaleDate handles ISO and US-style strings without rollover", () => {
+  assert.equal(normalizeSaleDate("2026-07-22"), "2026-07-22");
+  assert.equal(normalizeSaleDate("2026-07-22T10:30:00"), "2026-07-22");
+  assert.equal(normalizeSaleDate("2/5/1994"), "1994-02-05");
+  assert.equal(normalizeSaleDate("02/30/2026"), null);
+  assert.equal(normalizeSaleDate("2026-02-30"), null);
+});
+
 test("normalizeSaleDate nulls implausible or malformed dates", () => {
   assert.equal(normalizeSaleDate("17530101000000"), null);
   assert.equal(normalizeSaleDate(Date.UTC(1753, 0, 1)), null);

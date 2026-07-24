@@ -37,8 +37,10 @@ function isoDateOrNull(year, month, day) {
   return date.toISOString().slice(0, 10);
 }
 
-// Accepts esri epoch milliseconds, YYYYMMDD / YYYYMMDDHHMMSS strings
-// (the source's DateOfSale format), or anything Date.parse understands.
+// Accepts esri epoch milliseconds or YYYYMMDD[HHMMSS], YYYY-MM-DD, and
+// M/D/YYYY strings (the source's DateOfSale formats). Components are
+// validated explicitly — never via Date.parse, whose rollover would turn
+// a malformed "02/30/2026" into 2026-03-02 instead of rejecting it.
 // Returns "YYYY-MM-DD" or null for missing/implausible dates.
 function normalizeSaleDate(value) {
   if (value == null || value === "") return null;
@@ -47,13 +49,12 @@ function normalizeSaleDate(value) {
     return isoDateOrNull(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
   }
   const text = String(value).trim();
-  const digits = text.match(/^(\d{4})(\d{2})(\d{2})(?:\d{6})?$/);
-  if (digits) return isoDateOrNull(Number(digits[1]), Number(digits[2]), Number(digits[3]));
-  const parsed = Date.parse(text);
-  if (!Number.isNaN(parsed)) {
-    const date = new Date(parsed);
-    return isoDateOrNull(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
-  }
+  const compact = text.match(/^(\d{4})(\d{2})(\d{2})(?:\d{6})?$/);
+  if (compact) return isoDateOrNull(Number(compact[1]), Number(compact[2]), Number(compact[3]));
+  const iso = text.match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ].*)?$/);
+  if (iso) return isoDateOrNull(Number(iso[1]), Number(iso[2]), Number(iso[3]));
+  const us = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (us) return isoDateOrNull(Number(us[3]), Number(us[1]), Number(us[2]));
   return null;
 }
 
